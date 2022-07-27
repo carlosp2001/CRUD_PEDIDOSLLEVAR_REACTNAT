@@ -10,6 +10,7 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
+// import { ScrollView } from "react-native-virtualized-view";
 import { colores, sizes } from "../../estilos/estilos";
 import UsuarioContext from "../../contexto/UsuarioContext";
 import Mensaje from "../../componentes/Mensaje";
@@ -17,24 +18,93 @@ import Axios from "../../componentes/Axios";
 import CardPedidosLlevar from "../pedidosLlevar/CardPedidosLlevar";
 import { PedidosLlevarContext } from "../../contexto/pedidosLlevar/pedidosLlevarContext";
 
+
 const ListarPedidosLlevar = () => {
-  var textoMensaje = "";
-  const { token } = useContext(UsuarioContext);
-  const [lista, setLista] = useState("");
+
+    const { token } = useContext(UsuarioContext);
+    const [lista, setLista] = useState([]);
+//   const [lista, setLista] = useState([
+//     {
+//       idcliente: 2,
+//       idpedido: 3,
+//       idregistro: 25,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 6,
+//       idregistro: 26,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 4,
+//       idregistro: 27,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 3,
+//       idregistro: 28,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 6,
+//       idregistro: 29,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 4,
+//       idregistro: 30,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 6,
+//       idregistro: 31,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 4,
+//       idregistro: 32,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 3,
+//       idregistro: 33,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 6,
+//       idregistro: 34,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 4,
+//       idregistro: 35,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 4,
+//       idregistro: 36,
+//     },
+//     {
+//       idcliente: 2,
+//       idpedido: 4,
+//       idregistro: 37,
+//     },
+//   ]);
+  
   const [filtro, setFiltro] = useState("");
-  const { jsonDatos, setJsonDatos } = useContext(PedidosLlevarContext);
+
+   
+    
   useEffect(() => {
     buscarPedidosLlevar();
   }, [setLista]);
 
-    async function changeHandler(text) {
-      
-        setFiltro(text);
-        if (text == "") {
-            buscarPedidosLlevar();
-        }
-        
-  };
+  async function changeHandler(text) {
+    setFiltro(text);
+    if (text == "") {
+      buscarPedidosLlevar();
+    }
+  }
 
   const onPressHandler = () => {
     if (filtro == "") {
@@ -55,6 +125,7 @@ const ListarPedidosLlevar = () => {
         .then((data) => {
           // setJsonDatos(data.data);
           setLista(data.data);
+          console.log(lista);
           // else {
           //      textoMensaje = '';
           //      json.errores.forEach(element => {
@@ -76,92 +147,97 @@ const ListarPedidosLlevar = () => {
   };
 
   return (
-    <ScrollView>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-        }}
+   
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
       >
-        <View style={styles.container}>
-          <View style={styles.contenedorTitulo}>
-            <Text style={styles.tituloLogin}>Lista Pedidos Llevar</Text>
-          </View>
-          <View style={styles.content}>
-            <View style={styles.contenedorInput}>
-              <TextInput
-                style={styles.input}
-                placeholder="Filtrar por Id de Registro..."
-                onChangeText={changeHandler}
-              />
-              <TouchableOpacity onPress={onPressHandler}>
-                <Text style={styles.boton}>Filtrar</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.list}>
-              <FlatList
-                data={lista}
-                scrollEnabled={false}
-                renderItem={({ item }) => <CardPedidosLlevar item={item} />}
-              />
-            </View>
-          </View>
+          
+          <ScrollView>
+              <View>
+                  
+              
+        <View style={styles.contenedorTitulo}>
+          <Text style={styles.tituloLogin}>Lista Pedidos Llevar</Text>
         </View>
-      </TouchableWithoutFeedback>
-    </ScrollView>
+        <View style={styles.contenedorInput}>
+          <TextInput
+            style={styles.input}
+            placeholder="Filtrar por Id de Registro..."
+            onChangeText={changeHandler}
+          />
+          <TouchableOpacity onPress={onPressHandler} style={styles.boton}>
+            <Text style={styles.botonTexto}>Filtrar</Text>
+          </TouchableOpacity>
+        </View>
+        
+
+          
+              
+        <View style={styles.container}>
+          {lista.map((item) => (
+            <View key={item.idregistro}>
+              <CardPedidosLlevar item={item}></CardPedidosLlevar>
+            </View>
+          ))}
+    
+                  
+       
+                  </View>
+                  </View>
+        </ScrollView>
+    
+    </TouchableWithoutFeedback>
+   
   );
 };
 
 const styles = StyleSheet.create({
-  contenedor: {
-    backgroundColor: colores.gris600,
-    //alignItems: 'center',
-    //justifyContent: "center",
-    margin: 0,
+  container: {
+    flex: 1,
     padding: 20,
-    width: "100%",
-    height: "100%",
-  },
-  contenedorInput: {
-    margin: 20,
-    padding: 20,
-  },
+    },
 
-  contenedorTitulo: {
-    margin: 30,
-    height: 80,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  list: {
-    marginTop: 20,
-    // height: '70%'
-  },
+    contenedorInput: {
+      margin: 20,
+      marginBottom: -20,
+      padding: 20,
+    },
 
-  tituloLogin: {
-    color: colores.gris800,
-    fontSize: sizes.fontTitulo,
-    fontWeight: "500",
-  },
-  boton: {
-    //flex: 1,
-    alignItems: "stretch",
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  botonRedes: {
-    //flex:1,
-    alignItems: "stretch",
-    margin: 5,
-  },
-  input: {
-    marginBottom: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
+    contenedorTitulo: {
+      margin: 30,
+      height: 80,
+      alignItems: "center",
+      justifyContent: "flex-end",
+    },
+
+    
+
+    tituloLogin: {
+      color: colores.gris800,
+      fontSize: sizes.fontTitulo,
+      fontWeight: "500",
+    },
+    boton: {
+      alignItems: "center",
+      padding: 20,
+      borderRadius: 20,
+      marginLeft: 10,
+      backgroundColor: colores.gris600,
+      marginRight: 10,
+    },
+    botonTexto: {
+      color: "white",
+    },
+
+    input: {
+      marginBottom: 10,
+      paddingHorizontal: 8,
+      paddingVertical: 6,
+      borderBottomWidth: 1,
+      borderBottomColor: "#ddd",
+    },
 });
 
 export default ListarPedidosLlevar;

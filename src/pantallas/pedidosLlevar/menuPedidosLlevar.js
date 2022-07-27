@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
-import { colores, sizes } from '../estilos/estilos';
-import UsuarioContext from '../contexto/UsuarioContext';
-import Mensaje from '../componentes/Mensaje';
+import { colores, sizes } from '../../estilos/estilos';
+import UsuarioContext from '../../contexto/UsuarioContext';
+import Mensaje from '../../componentes/Mensaje';
 
 
 const PedidosLlevar = ({navigation}) => {

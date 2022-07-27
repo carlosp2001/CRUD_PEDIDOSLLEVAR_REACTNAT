@@ -5,13 +5,7 @@ import { colores, sizes } from '../estilos/estilos';
 import UsuarioContext from '../contexto/UsuarioContext';
 import Mensaje from '../componentes/Mensaje';
 
-
-
-
 const Login = ({navigation}) => {
-
-
-
   const [usuarioText, setUsuarioText] = useState("");
   const [contrasena, setContrasena] = useState("");
   const titulo= 'Inicio de sesión'
@@ -37,10 +31,6 @@ const Login = ({navigation}) => {
           setContrasena("");
           navigation.navigate('menuPedidosLlevar');
         }
-          
-        
-        
-        
       }
   };
   return (

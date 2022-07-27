@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Login from './src/pantallas/Login';
-import menuPedidosLlevar from './src/pantallas/menuPedidosLlevar';
+import menuPedidosLlevar from './src/pantallas/pedidosLlevar/menuPedidosLlevar';
 import AgregarPedidosLlevar from './src/pantallas/pedidosLlevar/AgregarPedidosLlevar';
 import UsuarioState from './src/contexto/UsuarioState';
 import { NavigationContainer } from '@react-navigation/native';
